@@ -29,7 +29,6 @@ public class Controller1 implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
-        // Start choiceBox
         choiceType.getItems().clear();
         choiceType.getItems().addAll("Broadcast", "Bounce", "Private");
         choiceType.setValue("Broadcast");
@@ -42,7 +41,7 @@ public class Controller1 implements Initializable {
         });
         choiceUser.setDisable(true);
 
-        // Send message when pressing enter
+        // Envia un missatge quan pulses Intro
         txtField.setOnAction((event) -> {
             sendMessage();
         });
@@ -74,12 +73,12 @@ public class Controller1 implements Initializable {
         System.out.println("Send WebSocket: " + obj.toString());
     }
 
-    // Main socketClient calls this method when receiving a message
+    // Main socketClient crida a aquest mètode quan rep un missatge
     public void receiveMessage (JSONObject messageObj) {
         System.out.println("Receive WebSocket: " + messageObj.toString());
         String type = messageObj.getString("type");
 
-        // Update clients choiceBox list
+        // Actualitza la llista
         if (type.equals("clients")) {
 
             JSONArray JSONlist = messageObj.getJSONArray("list");

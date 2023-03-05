@@ -16,7 +16,7 @@ public class UtilsViews {
     public static StackPane parentContainer = new StackPane();
     public static ArrayList<Object> controllers = new ArrayList<>();
 
-    // Add one view to the list
+    // Afegiu una vista a la llista
     public static void addView(Class<?> cls, String name, String path) throws Exception {
         
         boolean defaultView = false;
@@ -24,7 +24,6 @@ public class UtilsViews {
         Pane view = loader.load();
         ObservableList<Node> children = parentContainer.getChildren();
 
-        // First view is the default view
         if (children.isEmpty()) {
             defaultView = true;
         }
@@ -37,7 +36,6 @@ public class UtilsViews {
         controllers.add(loader.getController());
     }
 
-    // Get controller by view id (viewId)
     public static Object getController(String viewId) {
         int index = 0;
         for (Node n : parentContainer.getChildren()) {
@@ -48,14 +46,12 @@ public class UtilsViews {
         }
         return null;
     }
-
-    // Set visible view by its id (viewId)
     public static void setView(String viewId) {
 
         ArrayList<Node> list = new ArrayList<>();
         list.addAll(parentContainer.getChildrenUnmodifiable());
 
-        // Show next view, hide others
+        // Ensenya la següent vista i oculta les altres
         for (Node n : list) {
             if (n.getId().equals(viewId)) {
                 n.setVisible(true);
@@ -65,18 +61,16 @@ public class UtilsViews {
                 n.setManaged(false);
             }
         }
-
-        // Remove focus from buttons
         parentContainer.requestFocus();
     }
 
-    // Set visible view by its id (viewId) with an animation
+    // Estableix la vista visible pel seu identificador (viewId) amb una animació
     public static void setViewAnimating(String viewId) {
 
         ArrayList<Node> list = new ArrayList<>();
         list.addAll(parentContainer.getChildrenUnmodifiable());
 
-        // Get current view
+        // Agafa la vista actual
         Node curView = null;
         for (Node n : list) {
             if (n.isVisible()) {
@@ -85,10 +79,10 @@ public class UtilsViews {
         }
 
         if (curView.getId().equals(viewId)) {
-            return; // Do nothing if current view is the same as the next view
+            return; // Si la vista actual es la mateixa que la próxima, el programa no farà res
         }
 
-        // Get nxtView
+        // Agafa la següent vista
         Node nxtView = null;
         for (Node n : list) {
             if (n.getId().equals(viewId)) {
@@ -96,11 +90,10 @@ public class UtilsViews {
             }
         }
 
-        // Set nxtView visible
         nxtView.setVisible(true);
         nxtView.setManaged(true);
 
-        // By default, set animation to the left
+        // Per defecte, l'animació es configurarà cap a l'esquerra
         double width = parentContainer.getScene().getWidth();
         double xLeftStart = 0;
         double xLeftEnd = 0;
@@ -111,7 +104,7 @@ public class UtilsViews {
 
         if (list.indexOf(curView) < list.indexOf(nxtView)) {
 
-            // If curView is lower than nxtView, animate to the left
+            // Si curView és inferior a nxtView, s'anima cap a l'esquerra, en canvi, si curView es superior a nxtView, s'animarà cap a la dreta
             xLeftStart = 0;
             xLeftEnd = -width;
             xRightStart = width;
@@ -124,7 +117,6 @@ public class UtilsViews {
 
         } else { 
 
-            // If curView is greater than nxtView, animate to the right
             xLeftStart = -width;
             xLeftEnd = 0;
             xRightStart = 0;
@@ -136,7 +128,7 @@ public class UtilsViews {
             nxtView.translateXProperty().set(xLeftStart);
         }
 
-        // Animate leftView 
+        // Vista animada esquerra
         final double seconds = 0.4;
         KeyValue kvLeft = new KeyValue(animatedViewLeft.translateXProperty(), xLeftEnd, Interpolator.EASE_BOTH);
         KeyFrame kfLeft = new KeyFrame(Duration.seconds(seconds), kvLeft);
@@ -144,13 +136,13 @@ public class UtilsViews {
         timelineLeft.getKeyFrames().add(kfLeft);
         timelineLeft.play();
 
-        // Animate rightView 
+        // Vista animada dreta
         KeyValue kvRight = new KeyValue(animatedViewRight.translateXProperty(), xRightEnd, Interpolator.EASE_BOTH);
         KeyFrame kfRight = new KeyFrame(Duration.seconds(seconds), kvRight);
         Timeline timelineRight = new Timeline();
         timelineRight.getKeyFrames().add(kfRight);
         timelineRight.setOnFinished(t -> {
-            // Hide other views and reset all translations
+            // Oculta les altres vistes
             for (Node n : list) {
                 if (!n.getId().equals(viewId)) {
                     n.setVisible(false);
@@ -160,8 +152,6 @@ public class UtilsViews {
             }
         });
         timelineRight.play();
-
-        // Remove focus from buttons
         parentContainer.requestFocus();
     }
 }

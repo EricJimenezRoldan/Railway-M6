@@ -34,7 +34,6 @@ public class ControllerModificar implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
-        
     }
 
     @FXML
@@ -54,8 +53,6 @@ public class ControllerModificar implements Initializable {
         obj.put("phone", this.telefon.getText());
         obj.put("direction", this.direccio.getText());
         obj.put("city", this.ciutat.getText());
-        //JSONObject obj = new JSONObject("{}");
-        //obj.put("type", "test");
         showLoading();
         UtilsHTTP.sendPOST(Main.protocol + "://" + Main.host + ":" + Main.port + "/dades", obj.toString(), (response) -> {
             System.out.println(response);
@@ -138,10 +135,10 @@ public class ControllerModificar implements Initializable {
         }
     }
     private void showModificat () {
-        // Show the error
+        // Mostra els posibles errors
         textAfegit.setText("Usuari modificat exitosament!");
         textAfegit.setVisible(true);
-        // Hide the error after 3 seconds
+        // Oculta els errors després de 3 segons
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ae -> textAfegit.setVisible(false)));
         timeline.play();
     }

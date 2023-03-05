@@ -66,10 +66,10 @@ public class Controller0 implements Initializable {
     }
 
     private void showError () {
-        // Show the error
+        // Mostra els errors
         txtError.setVisible(true);
 
-        // Hide the error after 3 seconds
+        // Oculta els errors després de 3 segons
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ae -> txtError.setVisible(false)));
         timeline.play();
     }
@@ -95,17 +95,16 @@ public class Controller0 implements Initializable {
             JSONArray JSONlist = objResponse.getJSONArray("result");
             ArrayList<String> brandsArr = new ArrayList<>();
 
-            // Create arraylist with brands from JSON
+            // Crea arraylist amb marques del JSON
             for (int i = 0; i < JSONlist.length(); i++) {
                 brandsArr.add(JSONlist.getString(i));
             }
 
-            // Set choicebox items with brands from arraylist
+            // Estableix choicebox items amb marques de la arraylist
             choiceBox.getItems().clear();
             choiceBox.getItems().addAll(brandsArr);
             choiceBox.setValue(brandsArr.get(0));
 
-            // Load consoles for the first brand
             loadBrandConsoles(brandsArr.get(0));
         } else {
             showError();
@@ -115,18 +114,17 @@ public class Controller0 implements Initializable {
     @FXML
     private void loadBrandConsoles (String brand) {
 
-        // Set selected brand in label
+        // Estableix la marca seleccionada a l'etiqueta
         txtSelected.setText(choiceBox.getValue());
 
-        // Clear the list of consoles
         vBoxList.getChildren().clear();
 
-        // Load list of consoles for this brand
+        // Carrega la llista de consoles de la marca seleccionada
         JSONObject obj = new JSONObject("{}");
         obj.put("type", "marca");
         obj.put("name", brand);
 
-        // Ask for data
+        // Demana dades
         showLoading();
         UtilsHTTP.sendPOST(Main.protocol + "://" + Main.host + ":" + Main.port + "/dades", obj.toString(), (response) -> {
             loadBrandConsolesCallback(response);
@@ -143,27 +141,24 @@ public class Controller0 implements Initializable {
             JSONArray JSONlist = objResponse.getJSONArray("result");
             URL resource = this.getClass().getResource("./assets/listItem.fxml");
 
-            // Clear the list of consoles
+            // Limpia la llista
             vBoxList.getChildren().clear();
 
-            // Add received consoles from the JSON to the yPane (VBox) list
             for (int i = 0; i < JSONlist.length(); i++) {
 
-                // Get console information
+                // Obteniu informació de la consola
                 JSONObject console = JSONlist.getJSONObject(i);
 
                 try {
-                    // Load template and set controller
+                    // Carregueu la plantilla i configureu el controlador
                     FXMLLoader loader = new FXMLLoader(resource);
                     Parent itemTemplate = loader.load();
                     ControllerItem itemController = loader.getController();
                 
-                    // Fill template with console information
+                    // Ompliu la plantilla amb informació de la consola
                     itemController.setTitle(console.getString("name"));
-                    /*itemController.setSubtitle(console.getString("processor"));
-                    itemController.setColor(console.getString("color"));*/
                     
-                    // Add template to the list
+                    // Afegeix una plantilla a la llista
                     vBoxList.getChildren().add(itemTemplate);
 
                 } catch (IOException e) {
@@ -197,13 +192,13 @@ public class Controller0 implements Initializable {
 
             JSONObject console = objResponse.getJSONObject("result");
 
-            // Fill console info with the received data
+            // Ompliu la informació de la consola amb les dades rebudes
             txtName.setText(console.getString("name"));
             txtDate.setText(console.getString("date"));
             txtBrand.setText(console.getString("brand"));
     
             try{
-                // Load console image
+                // Carrega la imatge de la consola
                 Image image = new Image(Main.protocol + "://" + Main.host + ":" + Main.port + "/" + console.getString("image")); 
                 imgConsole.setImage(image); 
                 imgConsole.setFitWidth(200);

@@ -21,7 +21,7 @@ public class UtilsHTTP {
 
     private static void send(String type, String url, String post_params, Consumer<String> callBack) {
 
-        // Create a new thread to send the request
+        // Crea un nou thread per enviar la solicitud
         ExecutorService executorService = Executors.newFixedThreadPool(1);
         Task<String> task = new Task<>() {
             @Override 
@@ -42,7 +42,7 @@ public class UtilsHTTP {
             
                     int responseCode = con.getResponseCode();
             
-                    if (responseCode == HttpURLConnection.HTTP_OK) { //success
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
                         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
                         String inputLine;
                         StringBuffer response = new StringBuffer();

@@ -33,15 +33,14 @@ public class ControllerUserList implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // TODO Auto-generated method stub
-
     }
     public void mostrarVista(){
         
         vBoxList.getChildren().clear();
-        // Load list of consoles for this brand
+        // Carrega la llista de consoles d'aquesta marca
         JSONObject obj = new JSONObject("{}");
         obj.put("type","carrega");
-        // Ask for data
+        // Demana dades
         showLoading();
         UtilsHTTP.sendPOST(Main.protocol + "://" + Main.host + ":" + Main.port + "/dades", obj.toString(), (response) -> {
             loadList(response);
@@ -58,34 +57,29 @@ public class ControllerUserList implements Initializable{
             JSONArray JSONlist = objResponse.getJSONArray("result");
             URL resource = this.getClass().getResource("./assets/listItem.fxml");
             
-            // Clear the list of consoles
             vBoxList.getChildren().clear();
-            // Add received consoles from the JSON to the yPane (VBox) list
             for (int i = 0; i < JSONlist.length(); i++) {
 
-                // Get console information
+                // Obté informació de la consola
                 JSONObject user = JSONlist.getJSONObject(i);
 
                     try {
-                    // Load template and set controller
+                    // Carrega la plantilla i configura el controlador
                     FXMLLoader loader = new FXMLLoader(resource);
                     Parent itemTemplate = loader.load();
                     ControllerItem itemController = loader.getController();
                         
                     
-                    // Fill template with console information
+                    // Omple la plantilla amb informació de la consola
                     itemController.setTitle(user.getString("firstName"));                     
                     itemController.setId(user.getInt("id"));
-                    // Add template to the list
+                    // Afegeix la plantilla a la llista
                     vBoxList.getChildren().add(itemTemplate);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-        } else{
-          //  showError();
         }
     }
     private void showLoading () {

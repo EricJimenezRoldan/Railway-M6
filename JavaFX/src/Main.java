@@ -29,21 +29,6 @@ public class Main extends Application {
     public static ImageView imageView = new ImageView(); 
 
     public static void main(String[] args) {
-
-        // Iniciar WebSockets
-        //socketClient = UtilsWS.getSharedInstance(protocolWS + "://" + host + ":" + port);
-        /*socketClient.onMessage((response) -> {
-            
-            // JavaFX necessita que els canvis es facin des de el thread principal
-            Platform.runLater(()->{ 
-                // Fer aquí els canvis a la interficie
-                JSONObject msgObj = new JSONObject(response);
-                Controller1 ctrl = (Controller1) UtilsViews.getController("View1");
-                ctrl.receiveMessage(msgObj);
-            });
-        });*/
-
-        // Iniciar app JavaFX   
         launch(args);
     }
     
@@ -53,31 +38,24 @@ public class Main extends Application {
         final int windowWidth = 800;
         final int windowHeight = 600;
 
-        UtilsViews.parentContainer.setStyle("-fx-font: 14 arial;");
+        UtilsViews.parentContainer.setStyle("-fx-font: 12 arial;");
         UtilsViews.addView(getClass(), "ViewSign", "./assets/viewSign.fxml");
         UtilsViews.addView(getClass(), "ViewFormulari", "./assets/viewFormulari.fxml");
         UtilsViews.addView(getClass(), "ViewList", "./assets/viewList.fxml");
         UtilsViews.addView(getClass(), "ViewModificar", "./assets/viewModificar.fxml");
-        //UtilsViews.addView(getClass(), "listItem", "./assets/listItem.fxml");
-        /*UtilsViews.addView(getClass(), "View0", "./assets/view0.fxml");
-        UtilsViews.addView(getClass(), "View1", "./assets/view1.fxml");*/
 
         Scene scene = new Scene(UtilsViews.parentContainer);
         
         stage.setScene(scene);
-        stage.onCloseRequestProperty(); // Call close method when closing window
-        stage.setTitle("JavaFX - NodeJS");
+        stage.onCloseRequestProperty(); // Truca al mètode de tancament quan es tanca la finestra
+        stage.setTitle("Guardar Dades - Eric Jimenez");
         stage.setMinWidth(windowWidth);
         stage.setMinHeight(windowHeight);
         stage.show();
-
-        // Image icon = new Image("file:./assets/icon.png");
-        // stage.getIcons().add(icon);
     }
 
     @Override
     public void stop() { 
-        //socketClient.close();
-        System.exit(1); // Kill all executor services
+        System.exit(1); // Mata tots els serveis executors
     }
 }

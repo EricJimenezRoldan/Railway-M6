@@ -34,24 +34,6 @@ public class ControllerFormulari implements Initializable {
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
-        /* 
-        URL resource = this.getClass().getResource("./assets/listItem.fxml");
-            
-            // Clear the list of consoles
-            hBox.getChildren().clear();
-
-            // Add received consoles from the JSON to the yPane (VBox) list
-
-
-                    try {
-                    // Load template and set controller
-                    FXMLLoader loader = new FXMLLoader(resource);
-                    Parent itemTemplate = loader.load();
-                    // Add template to the list
-                    hBox.getChildren().add(itemTemplate);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }*/
     }
    
     @FXML
@@ -70,8 +52,6 @@ public class ControllerFormulari implements Initializable {
         obj.put("phone", this.telefon.getText());
         obj.put("direction", this.direccio.getText());
         obj.put("city", this.ciutat.getText());
-        //JSONObject obj = new JSONObject("{}");
-        //obj.put("type", "test");
         showLoading();
         UtilsHTTP.sendPOST(Main.protocol + "://" + Main.host + ":" + Main.port + "/dades", obj.toString(), (response) -> {
             System.out.println(response);
@@ -142,10 +122,10 @@ public class ControllerFormulari implements Initializable {
         }
     }
     private void showAfegit () {
-        // Show the error
+        // Mostra els posibles errors
         textAfegit.setText("Usuari afegit exitosament!");
         textAfegit.setVisible(true);
-        // Hide the error after 3 seconds
+        // Oculta els errors després de 3 segons
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ae -> textAfegit.setVisible(false)));
         timeline.play();
     }

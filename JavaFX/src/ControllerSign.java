@@ -30,7 +30,6 @@ public class ControllerSign implements Initializable{
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
         // TODO Auto-generated method stub
-        
     }
 
     @FXML
@@ -76,10 +75,10 @@ public class ControllerSign implements Initializable{
     }
 
     private void showError () {
-        // Show the error
+        // Mostra els posibles errors
         txtError.setVisible(true);
         txtError.setText("Error amb un dels parametres introduits");
-        // Hide the error after 3 seconds
+        // Oculta els errors després de 3 segons
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3), ae -> txtError.setVisible(false)));
         timeline.play();
     }
